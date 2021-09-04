@@ -1,0 +1,111 @@
+<div class="container" fxLayout="column" fxLayoutGap="10px">
+
+    <div fxFlex>
+        <div>
+            <h3>Contact Us</h3>
+            <hr>
+        </div>
+    </div>
+
+    <div fxFlex>
+        <h3>Location Information</h3>
+        <div fxLayout="column" fxLayout.gt-sm="row">
+            <div fxFlex="50" fxFlexOffset="20px">
+                <h4>Our Address</h4>
+                <address>
+                    121, Clear Water Bay Road<br> Clear Water Bay, Kowloon<br> HONG KONG<br>
+                    <em class="fa fa-phone"></em>: +852 1234 5678<br>
+                    <em class="fa fa-fax"></em>: +852 8765 4321<br>
+                    <em class="fa fa-envelope"></em>:
+                    <a href="mailto:confusion@food.net">confusion@food.net</a>
+                </address>
+                <p></p>
+                <div>
+                    <a mat-raised-button href="tel:+85212345678"><em class="fa fa-phone"></em> Call</a>
+                    <a mat-raised-button><em class="fa fa-skype"></em> Skype</a>
+                    <a mat-raised-button href="mailto:confusion@food.net"><em class="fa fa-envelope-o"></em> Email</a>
+                </div>
+            </div>
+            <div fxFlex="40">
+                <h4>Map of our Location</h4>
+            </div>
+        </div>
+    </div>
+
+    <h3>Send us your Feedback</h3>
+
+    <div [hidden]="!submitting">
+        <h4>Submitting Form</h4>
+        <mat-spinner></mat-spinner>
+    </div>
+
+    <div fxFlex *ngIf="postedfeedback" [@expand]>
+
+        <h4>Your Submission</h4>
+        <p>First Name: {{postedfeedback.firstname}}</p>
+        <p>Last Name: {{postedfeedback.lastname}}</p>
+        <p>Tel. Number: {{postedfeedback.telnum}}</p>
+        <p>Contact You?: {{postedfeedback.agree}}</p>
+        <p>How?: {{postedfeedback.contacttype}}</p>
+        <p>Feedback: {{postedfeedback.message}}</p>
+    </div>
+
+    <div fxFlex fxFlexOffset="20px" class="form-size" [hidden]="hideForm">
+
+        <form novalidate [formGroup]="feedbackForm" (ngSubmit)="onSubmit()">
+            <p>
+                <mat-input-container class="half-width" dividerColor="{{(formErrors.firstname) ? 'warn' : 'primary'}}">
+                    <input mdInput formControlName="firstname" placeholder="First Name" type="text" required>
+                    <mat-hint>
+                        <span [hidden]="!(formErrors.firstname)">
+                            {{formErrors.firstname}}</span>
+                    </mat-hint>
+                </mat-input-container>
+                <mat-input-container class="half-width" dividerColor="{{(formErrors.lastname) ? 'warn' : 'primary'}}">
+                    <input mdInput formControlName="lastname" placeholder="Last Name" type="text" required>
+                    <mat-hint>
+                        <span [hidden]="!(formErrors.lastname)">
+                            {{formErrors.lastname}}</span>
+                    </mat-hint>
+                </mat-input-container>
+            </p>
+            <p>
+                <mat-input-container class="half-width" dividerColor="{{(formErrors.telnum) ? 'warn' : 'primary'}}">
+                    <input mdInput formControlName="telnum" placeholder="Tel. Number" type="tel" pattern="[0-9]*"
+                        required>
+                    <mat-hint>
+                        <span [hidden]="!(formErrors.telnum)">
+                            {{formErrors.telnum}}</span>
+                    </mat-hint>
+                </mat-input-container>
+                <mat-input-container class="half-width" dividerColor="{{(formErrors.email) ? 'warn' : 'primary'}}">
+                    <input mdInput formControlName="email" placeholder="Email" type="email" email required>
+                    <mat-hint>
+                        <span [hidden]="!(formErrors.email)">
+                            {{formErrors.email}}</span>
+                    </mat-hint>
+                </mat-input-container>
+            </p>
+            <table class="form-size">
+                <td>
+                    <mat-slide-toggle formControlName="agree">May we contact you?</mat-slide-toggle>
+                </td>
+                <td>
+                    <mat-select placeholder="How?" formControlName="contacttype">
+                        <mat-option *ngFor="let ctype of contactType" [value]="ctype">
+                            {{ ctype }}
+                        </mat-option>
+                    </mat-select>
+                </td>
+            </table>
+            <p>
+                <mat-input-container class="full-width">
+                    <textarea mdInput formControlName="message" placeholder="Your Feedback" rows=12></textarea>
+                </mat-input-container>
+            </p>
+            <button type="submit" mat-button class="background-primary text-floral-white"
+                [disabled]="feedbackForm.invalid">Submit</button>
+        </form>
+    </div>
+
+</div>
